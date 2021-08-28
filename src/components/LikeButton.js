@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { Button, Icon, Label } from 'semantic-ui-react'
 import MyPopup from '../util/MyPopup'
 
-export default function LikeButton({user, post: { id, likes, likeCount } }) {
+export default function LikeButton({ user, post: { id, likes, likeCount } }) {
 
    const [liked, setLiked] = useState(false)
 
@@ -21,39 +21,57 @@ export default function LikeButton({user, post: { id, likes, likeCount } }) {
 
 
    const [likePost] = useMutation(LIKE_POST_MUTATION, {
-      variables: {postId: id}//id из пропсов
+      variables: { postId: id }//id из пропсов
    })
 
-   const likeButton = user ? (
+   // создадим константу для кнопки и применим стиль в зависимости от пользователя и состояния константы liked
+   // const likeButton = user ? (
+   const likeButton = (
       liked ? (//
          <Button color='teal'>
             <Icon name='heart' />
          </Button>
       ) : (
-         <Button color='teal' basic>
-            <Icon name='heart' />
-         </Button>
-      )
-   ) : (
-      <Button as={Link} to="/login" color='teal' basic>
-            <Icon name='heart' />
-         </Button>
+            <Button color='teal' basic>
+               <Icon name='heart' />
+            </Button>
+         )
    )
+   // ) : (
+   //       <Button as='a' href="/login" color='teal' basic>
+   //          <Icon name='heart' />
+   //       </Button>
+   //    )
 
    return (
-      <Button as='div' labelPosition='right' onClick={likePost}>
-         {/* константу likeButton обернём в tooltips-компонент MyPopup передав в него динамический контент/заполнитель */}
-         <MyPopup
-            content={liked ? 'Unlike' : 'Like'}
-         >
-            {likeButton}
-         </MyPopup>
-         
-         {/* счётчик лайков */}
-         <Label basic color='teal' pointing='left'>
-            {likeCount}
-         </Label>
-      </Button>
+      user ? (
+         <Button as='div' labelPosition='right' onClick={likePost}>
+            {/* константу likeButton обернём в tooltips-компонент MyPopup передав в него динамический контент/заполнитель */}
+            <MyPopup
+               content={liked ? 'Unlike' : 'Like'}
+            >
+               {likeButton}
+            </MyPopup>
+
+            {/* счётчик лайков */}
+            <Label basic color='teal' pointing='left'>
+               {likeCount}
+            </Label>
+         </Button>) : (
+            <Button as={Link} to={'/login'} labelPosition='right'>
+               {/* константу likeButton обернём в tooltips-компонент MyPopup передав в него динамический контент/заполнитель */}
+               <MyPopup
+                  content={liked ? 'Unlike' : 'Like'}//параметрами 'Unlike' : 'Like' 
+               >
+                  {likeButton}
+               </MyPopup>
+
+               {/* счётчик лайков */}
+               <Label basic color='teal' pointing='left'>
+                  {likeCount}
+               </Label>
+            </Button>
+         )
    )
 }
 
