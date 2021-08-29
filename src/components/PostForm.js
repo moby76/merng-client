@@ -86,7 +86,7 @@ export default function PostForm() {
 const CREATE_POST_MUTATION = gql`
 mutation createPost($body: String!){
    # передадим в createPost переменную $body для значения body
-   createPost(body: $body){
+   createPost(postInput: {body: $body}){
       # получим в ответ:
       id 
       body 
