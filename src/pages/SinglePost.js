@@ -31,7 +31,7 @@ export default function SinglePost(props) {
       }
    })
 
-   //реализуем добавление поста с помощью мутации createComment(SUBMIT_COMMENT_MUTATION)
+   //реализуем добавление комментария с помощью мутации createComment(SUBMIT_COMMENT_MUTATION)
    const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
       update() {
          //при обновлении обнулим значение поля формы комментария
@@ -193,7 +193,7 @@ const FETCH_POST_QUERY = gql`
 
 // Запрос/мутация для создания комментария
 const SUBMIT_COMMENT_MUTATION = gql`
-   mutation($postId: String!, $body: String!){
+   mutation($postId: ID!, $body: String!){
       createComment(postId: $postId, body: $body){
          id
          comments{
