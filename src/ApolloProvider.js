@@ -8,9 +8,10 @@ import { setContext } from "apollo-link-context";
 const httpLink = createHttpLink({
    //заменить перед деплоем на git & Netlify
    uri: 'https://floating-spire-77624.herokuapp.com/',
-   fetchOptions: {
-      mode: 'no-cors',
-    },
+   // fetchOptions: {
+   //    mode: 'cors',
+   //    credentials: 'include'
+   //  },
    // uri: 'http://localhost:5000/graphql'
 
  });
@@ -28,7 +29,7 @@ const authLink = setContext(() => {
       headers: {
          //если токен получен то подставить его в строку хеадера отвечающую за авторизацию через токен, иначе передать пустую строку на сервер
          Authorization: token ? `Bearer ${token}` : '',
-         // Access-Control-Allow-Origin: https://floating-spire-77624.herokuapp.com/
+         // "Access-Control-Allow-Origin": "https://floating-spire-77624.herokuapp.com/"
       }
    }
 })
