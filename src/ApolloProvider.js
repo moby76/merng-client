@@ -13,8 +13,8 @@ const httpLink = createHttpLink({
    //    credentials: 'include'
    //  },
    // uri: 'http://localhost:5000/graphql'
-
- });
+   credentials: "include"
+ })
 
 //2.
 //Включаем заголовок авторизации в запрос
