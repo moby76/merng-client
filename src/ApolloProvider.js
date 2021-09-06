@@ -1,19 +1,17 @@
 //1 Нужно обернуть приложение в Аполло-провайдер
 import App from './App'
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client'
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, createHttpLink } from '@apollo/client'
 import { setContext } from "apollo-link-context";
 
 //1.
 //создать константу - подключение к graphQL
+// Клиент Apollo использует HttpLink Apollo Link для отправки запросов GraphQL через HTTP.
 const httpLink = createHttpLink({
    //заменить перед деплоем на git & Netlify
    uri: 'https://floating-spire-77624.herokuapp.com/graphql',
-   // fetchOptions: {
-   //    mode: 'cors',
-   //    credentials: 'include'
-   //  },
-   // uri: 'http://localhost:5000/graphql'
-
+   // credentials: 'include' // получение/отправка запросов из любых источников
+   credentials: 'same-origin' //принимаются данные только если клиент и сервер на одном источнике
+   // credentials: 'omit' //запрет на отправку/получение запросов
  })
 
 //2.
@@ -38,7 +36,8 @@ const authLink = setContext(() => {
 const client = new ApolloClient({
    //передать в ApolloClient  link состоящий из объединённых authLink + httpLink
    link: authLink.concat(httpLink),
-   cache: new InMemoryCache()//хранилище временных данных на клиенте   
+   cache: new InMemoryCache(),//хранилище временных данных на клиенте   
+   
 })
 
 
