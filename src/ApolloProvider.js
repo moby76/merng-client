@@ -8,11 +8,8 @@ import { setContext } from "apollo-link-context";
 // Клиент Apollo использует HttpLink Apollo Link для отправки запросов GraphQL через HTTP.
 const httpLink = createHttpLink({
    //заменить перед деплоем на git & Netlify
-   uri: 'https://floating-spire-77624.herokuapp.com/graphql',
-   credentials: 'include' // получение/отправка запросов из любых источников
-   // credentials: 'same-origin' //принимаются данные только если клиент и сервер на одном источнике
-   // credentials: 'omit' //запрет на отправку/получение запросов
- })
+   uri: 'https://floating-spire-77624.herokuapp.com/graphql'
+})
 
 //2.
 //Включаем заголовок авторизации в запрос
@@ -23,7 +20,7 @@ const authLink = setContext(() => {
    const token = localStorage.getItem('jwtToken')
    //вернуть модифицированный запрос 
    //получить хеадеры
-   return{
+   return {
       headers: {
          //если токен получен то подставить его в строку хеадера отвечающую за авторизацию через токен, иначе передать пустую строку на сервер
          Authorization: token ? `Bearer ${token}` : '',
@@ -37,13 +34,15 @@ const client = new ApolloClient({
    //передать в ApolloClient  link состоящий из объединённых authLink + httpLink
    link: authLink.concat(httpLink),
    cache: new InMemoryCache(),//хранилище временных данных на клиенте   
-   
+   credentials: 'include' // получение/отправка запросов из любых источников
+   // credentials: 'same-origin' //принимаются данные только если клиент и сервер на одном источнике
+   // credentials: 'omit' //запрет на отправку/получение запросов
 })
 
 
 
 export default (
    <ApolloProvider client={client}>
-      <App/>
+      <App />
    </ApolloProvider>
 )
