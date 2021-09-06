@@ -7,7 +7,7 @@ import { setContext } from "apollo-link-context";
 //создать константу - подключение к graphQL
 const httpLink = createHttpLink({
    //заменить перед деплоем на git & Netlify
-   uri: 'https://floating-spire-77624.herokuapp.com/',
+   uri: 'https://floating-spire-77624.herokuapp.com/graphql',
    // fetchOptions: {
    //    mode: 'cors',
    //    credentials: 'include'
